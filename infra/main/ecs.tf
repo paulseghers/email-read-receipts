@@ -10,12 +10,6 @@ variable "image_tag" {
   default     = "latest"
 }
 
-variable "aws_account_id" {
-  description = "AWS Account ID"
-  type        = string
-}
-
-
 # --- ECR repo --- #
 resource "aws_ecr_repository" "tracking" {
   name = "tracking-pixel"

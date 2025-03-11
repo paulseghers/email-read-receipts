@@ -1,6 +1,12 @@
+variable "aws_profile" {
+  description = "AWS profile to use locally. Set to an empty string in CI to use environment credentials."
+  type        = string
+  default     = "" #local profile on my machine
+}
+
 provider "aws" {
   region  = "eu-west-1"
-  profile = "hello"
+  profile = var.aws_profile != "" ? var.aws_profile : null # in CI we use env variables, not a profile
 }
 
 resource "aws_vpc" "main" {

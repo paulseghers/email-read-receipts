@@ -74,7 +74,7 @@ resource "aws_lb_target_group" "ecs_tg" {
 resource "aws_lb_listener" "http" {
   depends_on        = [aws_lb_target_group.ecs_tg]
   load_balancer_arn = aws_lb.ecs_alb.arn
-  port              = 80
+  port              = 5000
   protocol          = "HTTP"
 
   default_action {
