@@ -33,7 +33,7 @@ jobs:
         working-directory: infra/main
 
       - name: Terraform Plan
-        run: terraform plan -var "image_tag=${GITHUB_SHA}" -var "aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}" -out=tfplan #GITHUB_SHA acreated by the runner
+        run: terraform plan -var "image_tag=${GITHUB_SHA}" -out=tfplan #GITHUB_SHA acreated by the runner
         working-directory: infra/main
 
       - name: Terraform Apply
