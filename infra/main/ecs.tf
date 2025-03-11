@@ -1,29 +1,38 @@
+# --- variables --- #
+# messy to store them like this, but will do for now
+
+variable "region" {
+  description = "AWS region"
+}
+variable "image_tag" {
+  description = "wanted tag of the ECR image to deploy"
+  type        = string
+  default     = "latest"
+}
+
+
 
 # --- ECR repo --- #
 resource "aws_ecr_repository" "tracking" {
   name = "tracking-pixel"
 }
 
-##############################
-# ECS Cluster
-##############################
+
+# --- ECS Cluster --- #
+
 resource "aws_ecs_cluster" "tracking_cluster" {
   name = "email-tracking-cluster"
 }
 
+
 # --- Get ECR image URI --- #
 locals {
-  ecr_image_uri = "${aws_ecr_repository.tracking.repository_url}:latest"
+  ecr_image_uri = "${aws_ecr_repository.tracking.repository_url}:${var.image_tag}" #defaults to :latest if nothing passed at runtime
 }
-
 
 ##############################
 # ECS Task Definition
 ##############################
-
-variable "region" {
-  description = "AWS region"
-}
 
 resource "aws_iam_role" "ecs_task_execution_role_tracking" {
   name = "ecsTaskExecutionRoleTracking" # Use a unique name to avoid conflict
@@ -81,9 +90,8 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy_tracki
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-##############################
-# ECS Service
-##############################
+
+# --- ECS Service --- #
 resource "aws_ecs_service" "tracking_service" {
   name            = "tracking-service"
   cluster         = aws_ecs_cluster.tracking_cluster.id
