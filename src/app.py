@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, jsonify
 import logging
 from datetime import datetime
 
@@ -13,6 +13,11 @@ def track_email(email_id):
     
     return send_file("pixel.png", mimetype="image/png")
     # to embed: <img src="https://<domain>/usage/<email_id>.png" width="1" height="1" style="display:none;" />
-    
+
+# Health check endpoint
+@app.route("/", methods=["GET"])
+def health_check():
+    return jsonify({"status": "healthy"}), 200
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)

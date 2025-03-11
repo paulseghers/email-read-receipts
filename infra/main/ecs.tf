@@ -41,6 +41,11 @@ resource "aws_iam_role" "ecs_task_execution_role_tracking" {
   })
 }
 
+resource "aws_cloudwatch_log_group" "ecs_tracking" {
+  name              = "/ecs/tracking-app"
+  retention_in_days = 7
+}
+
 resource "aws_ecs_task_definition" "tracking_task" {
   family                   = "tracking-task"
   network_mode             = "awsvpc"
