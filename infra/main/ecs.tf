@@ -3,6 +3,7 @@
 
 variable "region" {
   description = "AWS region"
+  default     = "eu-west-1"
 }
 variable "image_tag" {
   description = "wanted tag of the ECR image to deploy"
